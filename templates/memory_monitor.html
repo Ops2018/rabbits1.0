@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>hello</title>
+</head>
+<body>
+<div id="container" style="min-width:400px;height:400px"></div>
+
+
+<script src='/static/jquery-1.8.3.min.js'></script>
+<script src='/static/highstock.js'></script>
+
+<script>
+$(function () {
+    $.getJSON('/data', function (data) {
+        // create the chart
+        $('#container').highcharts('StockChart', {
+            title: {
+                text: '内存实时监控'
+            },
+            subtitle: {
+                text: 'ops开源项目'
+            },
+            xAxis: {
+                gapGridLineWidth: 0
+            },
+            chart:{
+                events:{
+                        load:function(){
+                                var series = this.series[0]
+                                setInterval(function(){
+                                $.getJSON('/data',function(res){
+                                        $.each(res,function(i,v){
+                                                series.addPoint(v)
+                                        })
+                                })       
+                                },3000)
+                        }
+                }
+            },
+            rangeSelector : {
+                buttons : [{
+                    type : 'hour',
+                    count : 1,
+                    text : '1h'
+                }, {
+                    type : 'day',
+                    count : 1,
+                    text : '1D'
+                }, {
+                    type : 'all',
+                    count : 1,
+                    text : 'All'
+                }],
+                selected : 1,
+                inputEnabled : false
+            },
+            tooltip: {
+                split: false
+            },
+            series : [{
+                name : '内存监控',
+                type: 'area',
+                data : data,
+                gapSize: 5,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor : {
+                    linearGradient : {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops : [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                threshold: null
+            }]
+        });
+    });
+});
+</script>
+<center>
+一键优化采用老张默认定义的优化方案，您也可以通过定义优化行为按钮来进行自定义设置<br/>
+<form action="/tunning" method="post">
+<input type="submit" value="one_click_tunning" name="one_click_tunning">
+<button type="button" onclick="{location.href='http://123.206.81.19:9092/mem_behavior'}">定义
+优化行为</button>
+<button type="button" onclick="{location.href='http://123.206.81.19:9092/'}">返回</button>
+</form>
+</center>
+</body>
+</html>

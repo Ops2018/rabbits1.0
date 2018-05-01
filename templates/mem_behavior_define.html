@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>运维性能监控平台</title>
+</head>
+<div class="text" style=" text-align:center;"><b>嗨！这里设置您的自定义阈值触发行为</b></div>
+<body>
+<center>
+<form action="/mem_behavior" method="post" id="memform">
+<br/>
+<input type="submit" value="save" name="saving_behavior">
+<button type="button" onclick="{location.href='http://123.206.81.19:9092/memory_monitor'}">返
+回</button><br/>
+自定义阈值（%）[默认是60]
+<input type="text" name="threshold" size=5><br/>
+是否开启阈值自动触发行为机制
+<input type="checkbox" value="ok" name="autotunning">
+</form>
+<textarea name="orders" style="width:500px;height:500px;" form="memform">您可以用shell编写您的优化方案并粘贴到这里，别忘了点击save保存设置哦</textarea>
+</center>
+</body>
+</html>

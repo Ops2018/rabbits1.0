@@ -1,0 +1,2 @@
+#this file defines the threshold(%) of the memory. Whenever the mem_used data hit the threshold, it will generate a warning message.
+#You can define the behavior whenever the mem_used data hit the threshold by editing the mem_behavior file.
